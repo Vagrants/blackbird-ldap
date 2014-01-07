@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- encodig: utf-8 -*-
-"""Put retult of "ldapsearch" to Queue"""
+"""Blackbird plugin for monitoring slapd runtime information."""
 
 import json
 
@@ -70,7 +70,7 @@ class ConcreteJob(base.JobBase):
         self.ldap = global_import('ldap')
         self.connection = None
 
-    def looped_method(self):
+    def build_items(self):
         """
         main loop
         """
@@ -85,7 +85,7 @@ class ConcreteJob(base.JobBase):
         self.enqueue_generic_metrics()
         self.enqueue_database_metrics()
 
-        del(self.connection)
+        del self.connection
 
     def enqueue_generic_metrics(self):
         results = self.connection.search_s(
@@ -181,7 +181,7 @@ class Validator(base.ValidatorBase):
             "host = string(default='localhost')",
             "port = integer(0, 65535, default=389)",
             "timeout = integer(default=10)",
-            "hostname = string(default={0})".format(self.gethostname()),
+            "hostname = string(default={0})".format(self.detect_hostname()),
         )
         return self.__spec
 
