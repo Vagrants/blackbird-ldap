@@ -33,6 +33,3 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-
-# blackbird-ldap spesific
-requirements-devel.txt
